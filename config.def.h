@@ -5,9 +5,9 @@
 static const unsigned int borderpx       = 0;   /* border pixel of windows */
 static const int corner_radius           = 10;
 #else
-static const unsigned int borderpx       = 4;   /* border pixel of windows */
+static const unsigned int borderpx       = 3;   /* border pixel of windows */
 #endif // ROUNDED_CORNERS_PATCH
-static const unsigned int snap           = 32;  /* snap pixel */
+static const unsigned int snap           = 10;  /* snap pixel */
 #if SWALLOW_PATCH
 static const int swallowfloating         = 0;   /* 1 means swallow floating windows by default */
 #endif // SWALLOW_PATCH
@@ -38,7 +38,7 @@ static const char *altbarcmd             = "$HOME/bar.sh"; /* Alternate bar laun
 #if BAR_HOLDBAR_PATCH
 static const int showbar                 = 0;   /* 0 means no bar */
 #else
-static const int showbar                 = 1;   /* 0 means no bar */
+static const int showbar                 = 0;   /* 0 means no bar */
 #endif // BAR_HOLDBAR_PATCH
 static const int topbar                  = 1;   /* 0 means bottom bar */
 #if TAB_PATCH
@@ -138,13 +138,13 @@ static char c000000[]                    = "#000000"; // placeholder value
 
 static char normfgcolor[]                = "#bbbbbb";
 static char normbgcolor[]                = "#222222";
-static char normbordercolor[]            = "#5C6370";
-static char normfloatcolor[]             = "#5C6370";
+static char normbordercolor[]            = "#577590";
+static char normfloatcolor[]             = "#577590";
 
 static char selfgcolor[]                 = "#000000";
 static char selbgcolor[]                 = "#5C9FFF";
-static char selbordercolor[]             = "#26FFD4";
-static char selfloatcolor[]              = "#26FFD4";
+static char selbordercolor[]             = "#F94144";
+static char selfloatcolor[]              = "#F94144";
 
 static char titlenormfgcolor[]           = "#bbbbbb";
 static char titlenormbgcolor[]           = "#222222";
@@ -152,9 +152,9 @@ static char titlenormbordercolor[]       = "#444444";
 static char titlenormfloatcolor[]        = "#db8fd9";
 
 static char titleselfgcolor[]            = "#eeeeee";
-static char titleselbgcolor[]            = "#005577";
-static char titleselbordercolor[]        = "#005577";
-static char titleselfloatcolor[]         = "#005577";
+static char titleselbgcolor[]            = "#F94144";
+static char titleselbordercolor[]        = "#F94144";
+static char titleselfloatcolor[]         = "#F94144";
 
 static char tagsnormfgcolor[]            = "#bbbbbb";
 static char tagsnormbgcolor[]            = "#222222";
@@ -162,9 +162,9 @@ static char tagsnormbordercolor[]        = "#444444";
 static char tagsnormfloatcolor[]         = "#db8fd9";
 
 static char tagsselfgcolor[]             = "#eeeeee";
-static char tagsselbgcolor[]             = "#005577";
-static char tagsselbordercolor[]         = "#005577";
-static char tagsselfloatcolor[]          = "#005577";
+static char tagsselbgcolor[]             = "#F94144";
+static char tagsselbordercolor[]         = "#F94144";
+static char tagsselfloatcolor[]          = "#F94144";
 
 static char hidnormfgcolor[]             = "#005577";
 static char hidselfgcolor[]              = "#227799";
@@ -840,6 +840,11 @@ static const char *dmenucmd[] = {
 };
 static const char *termcmd[]  = { "st", NULL };
 
+static const char *brightup[] = {"brightnessctl", "set", "+200", NULL};
+static const char *brightdown[] = {"brightnessctl", "set", "200-", NULL};
+static const char *volup[] = {"amixer", "-D", "pulse", "sset", "Master", "5%+", NULL};
+static const char *voldown[] = {"amixer", "-D", "pulse", "sset", "Master", "5%-", NULL};
+
 #if BAR_STATUSCMD_PATCH
 #if BAR_DWMBLOCKS_PATCH
 /* This defines the name of the executable that handles the bar (used for signalling purposes) */
@@ -871,6 +876,14 @@ static Key keys[] = {
 	#endif // KEYMODES_PATCH
 	{ MODKEY,                       XK_d,          spawn,                  {.v = dmenucmd } },
 	{ MODKEY,		                XK_Return,     spawn,                  {.v = termcmd } },
+
+	//Brightness and Volume
+
+    { 0,                 XF86XK_MonBrightnessUp,    spawn,            {.v = brightup } },
+    { 0,                 XF86XK_MonBrightnessDown,  spawn,            {.v = brightdown } },
+
+    { 0,                 XF86XK_AudioRaiseVolume,    spawn,            {.v = volup } },
+    { 0,                 XF86XK_AudioLowerVolume,	 spawn,            {.v = voldown } },
 	#if RIODRAW_PATCH
 	{ MODKEY|ControlMask,           XK_p,          riospawnsync,           {.v = dmenucmd } },
 	{ MODKEY|ControlMask,           XK_Return,     riospawn,               {.v = termcmd } },
